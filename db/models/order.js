@@ -27,24 +27,6 @@ const Order = db.define('orders', {
 		type: Sequelize.DATE,
 		defaultValue: new Date()
 	}
-}, {
-	classMethods: {
-		createAndGetAssociation : function(order) {
-			return Order.create(order)
-				.then(order => {
-					return Order.findOne({
-						where: {id: order.id},
-						include: [
-							{ model: addressModel, as: 'shipping_address', required: false },
-							{ model: addressModel, as: 'billing_address', required: false },
-							{ model: creditCardModel, include:[{ model: userModel }], required: false },
-							{ model: userModel, required: false },
-							{ model: lineItemModel }
-						]
-					})
-				})
-		}
-	}
 })
 
 module.exports = Order;

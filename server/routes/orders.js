@@ -15,6 +15,15 @@ const cartProductModel = db.model('cartProducts');
 const customOrdersRoutes = require('express').Router() 
 module.exports = customOrdersRoutes
 
+const Chance = require('chance');
+const chance = new Chance(Math.random);
+let newOrder = {
+	confirmation_number: chance.string({
+			pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+			length: 20
+		})
+}
+
 // // Epilogue will automatically create standard RESTful routes
 // const orders = epilogue.resource({
 // 	model: db.model('orders'),
@@ -30,7 +39,6 @@ module.exports = customOrdersRoutes
 
 
 customOrdersRoutes.get('/:id', (req,res,next) => {
-	console.log(new Date())
 	orderModel.findOne({
 		where: {id: req.params.id},
 		include: [{model: lineItemModel, include: [{model: productModel}]}]
@@ -39,10 +47,11 @@ customOrdersRoutes.get('/:id', (req,res,next) => {
 	.catch(next);
 })
 
+// This was working!!
 customOrdersRoutes.post('/', (req,res,next) => {
 
 	orderModel.findOrCreate({
-		where: {},
+		where: newOrder,
 		include: [
 			{ model: addressModel, as: 'shipping_address', required: false },
 			{ model: addressModel, as: 'billing_address', required: false },
@@ -79,46 +88,128 @@ customOrdersRoutes.post('/', (req,res,next) => {
 						price: cartProduct.product.price
 					})
 					.then(() => {
-						console.log(cartProduct.id)
 						cartProductModel.destroy({where: {id: cartProduct.id}})
 					})
 					.catch(next)
 				})
-
+				.then(() => res.status(201).send(order))
+				.catch(next)
 			})
-			.then(() => res.status(201).send(order))
-			
+			.catch(next)
 	})
 	.catch(next)
-
-// 	// 	getcart()
-// 	// createlineItems.setOrder
-// 	// clearcart
-
 })
 
 
 
 
 
-	// .then(order => {
-	// 	let lineItem = {order_id: order.id}
 
-	// 	return cartProductModel.getCartProducts(req.sessionID)
-	// 	.then(cartProducts => {
-	// 		Bluebird.map(cartProducts, cartProduct => 
-	// 			lineItemModel.create({
-	// 				quantity: cartProduct.quantity, 
-	// 				order_id: order.id,
-	// 				product_id: cartProduct.product_id
-	// 			}))
-	// 			.then(createdLineItem => {
-	// 				productModel.findById(createdLineItem.product_id)
-	// 				.then(product => createdLineItem.update({price: product.price}))
-	// 				.catch(next)
-	// 			})
-	// 			.catch(next)
-	// 	})
 
-	// 	.catch(next)
-	// })
+// failures
+// customOrdersRoutes.post('/', (req,res,next) => {
+
+// 	let newOrder = {}
+
+// 	addressModel.findOrCreate({where: req.body.billing_address})
+// 	.spread(address => newOrder.billing_address_id = address.id)
+// 	.then(() => {
+// 		return addressModel.findOrCreate({where: req.body.shipping_address})
+// 		.spread(address => newOrder.shipping_address_id = address.id)
+// 		.catch(next)
+// 	})
+// 	.then(() => {
+// 		return creditCardModel.findOrCreate({where: req.body.creditCard})
+// 		.spread(creditCard => newOrder.credit_card_id = creditCard.id)
+// 		.catch(next)
+// 	})
+// 	.then(() => {
+// 		cartProductModel.getCartProducts(req.sessionID)
+// 		.then(cartProducts => {
+// 			orderModel.create(newOrder)
+// 			.then(createdOrder => {
+// 				Bluebird.map(cartProducts, cartProduct => {
+// 					lineItemModel.create({
+// 						quantity: cartProduct.quantity,
+// 						product_id: cartProduct.product_id,
+// 						price: cartProduct.product.price
+// 					})
+// 					.then(createdLineItem => {
+// 						createdLineItem.setOrder(createdOrder)
+// 						cartProductModel.destroy({where: {id: createdLineItem.product_id}})
+// 					})
+// 					.catch(next)
+// 				})
+// 				.then(() => {
+// 					orderModel.findOne({
+// 						where: {
+// 							id: createdOrder.id,
+// 						},
+// 						include: [
+// 								{ model: addressModel, as: 'shipping_address', required: false },
+// 								{ model: addressModel, as: 'billing_address', required: false },
+// 								{ model: creditCardModel, include:[{ model: userModel }], required: false },
+// 								{ model: userModel, required: false },
+// 								{ model: lineItemModel }
+// 							]
+// 					})
+// 					.then(order => res.send(order))
+// 					.catch(next)
+// 				})
+// 				.catch(next)
+// 			})
+// 		})
+// 	})
+// 	.catch(next)
+// })
+
+
+
+
+
+// customOrdersRoutes.post('/', (req,res,next) => {
+
+// 	let newOrder = {}
+
+// 	addressModel.findOrCreate({where: req.body.billing_address})
+// 	.spread(address => {
+// 		newOrder.billing_address_id = address.id
+// 		return addressModel.findOrCreate({where: req.body.shipping_address})
+// 			.spread(address => {
+// 				newOrder.shipping_address_id = address.id
+// 				return creditCardModel.findOrCreate({where: req.body.creditCard})
+// 					.spread(creditCard => {
+// 						newOrder.credit_card_id = creditCard.id
+// 						return orderModel.createAndGetAssociation(newOrder)
+// 						.then(order => {
+// 							return cartProductModel.getCartProducts(req.sessionID)
+// 								.then(cartProducts => {
+// 									Bluebird.map(cartProducts, cartProduct => {
+// 										lineItemModel.create({
+// 											quantity: cartProduct.quantity,
+// 											order_id: order.id,
+// 											product_id: cartProduct.product_id,
+// 											price: cartProduct.product.price
+// 										})
+// 										.then(() => {
+// 											cartProductModel.destroy({where: {id: cartProduct.id}})
+// 										})
+
+// 										.catch(next)
+// 									})
+// 									.then(() => res.status(201).send(order))
+// 									.catch(next)
+// 								})
+								
+// 								.catch(next)
+// 							})
+// 							.catch(next)
+// 					})
+// 					.catch(next)
+// 			})
+// 			.catch(next)
+// 	})
+// 	.catch(next)
+// })
+
+

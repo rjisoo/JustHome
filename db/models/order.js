@@ -1,28 +1,49 @@
 'use strict'
 
 const Sequelize = require('sequelize')
-const db = require('APP/db')
+const db = require('APP/db');
+const addressModel = db.model('addresses');
+const creditCardModel = db.model('creditCards');
+const lineItemModel = db.model('lineItems');
+const userModel = require('./user')
 
 const Chance = require('chance');
 const chance = new Chance(Math.random);
 
 const Order = db.define('orders', {
-	confirmation_number: Sequelize.STRING,
+	confirmation_number: {
+		type: Sequelize.STRING,
+		defaultValue: chance.string({
+			pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+			length: 20
+		})
+	},
 	status: {
 		type: Sequelize.ENUM,
-		values: ['created', 'processing', 'cancelled', 'completed']
+		values: ['created', 'processing', 'cancelled', 'completed'],
+		defaultValue: 'created'
 	},
-	order_date: Sequelize.DATE
+	order_date: {
+		type: Sequelize.DATE,
+		defaultValue: new Date()
+	}
 }, {
-	hooks: {
-		beforeValidate: (order, options) => {
-			order.confirmation_number = chance.string({
-				pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-				length: 20
-			});
-      order.order_date = new Date();
-      order.status = 'created';
-    }
+	classMethods: {
+		createAndGetAssociation : function(order) {
+			return Order.create(order)
+				.then(order => {
+					return Order.findOne({
+						where: {id: order.id},
+						include: [
+							{ model: addressModel, as: 'shipping_address', required: false },
+							{ model: addressModel, as: 'billing_address', required: false },
+							{ model: creditCardModel, include:[{ model: userModel }], required: false },
+							{ model: userModel, required: false },
+							{ model: lineItemModel }
+						]
+					})
+				})
+		}
 	}
 })
 

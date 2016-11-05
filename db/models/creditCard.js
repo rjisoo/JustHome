@@ -20,7 +20,7 @@ const CreditCard = db.define('creditCards', {
 	},
 	credit_cart_type: {
 		type: Sequelize.ENUM,
-		values: [ 'american express','bankcard','china unionpay','diners club carte blanche','diners club enroute','diners club international','diners club united states & canada','discover card','instapayment','jcb','laser','maestro','mastercard','solo','switch','visa','visa electron' ]
+		values: ['amex','mastercard','visa']
 	}
 })
 

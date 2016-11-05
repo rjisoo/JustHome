@@ -18,8 +18,6 @@ const User = require('./user');
 // UserAdresses
 User.belongsTo(Address, {as: 'shipping_address'});
 User.belongsTo(Address, {as: 'billing_address'});
-// Address.hasOne(User, {as: 'shipping_address'});
-// Address.hasOne(User, {as: 'billing_address'});
 
 // UserCreditCards
 CreditCard.belongsTo(User);
@@ -39,8 +37,6 @@ Order.hasMany(LineItem);
 // OrderAdresses
 Order.belongsTo(Address, {as: 'shipping_address'});
 Order.belongsTo(Address, {as: 'billing_address'});
-// Address.hasOne(Order, {as: 'shipping_address'});
-// Address.hasOne(Order, {as: 'billing_address'});
 
 // OrderCreditcards
 Order.belongsTo(CreditCard);
@@ -60,6 +56,7 @@ User.hasMany(Review);
 
 // CartProduct.hasOne(Product)
 Product.hasOne(CartProduct)
+CartProduct.belongsTo(Product)
 
 
 module.exports = {User, Product, Review, Order, LineItem, Address, CreditCard, CartProduct};

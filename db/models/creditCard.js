@@ -12,7 +12,6 @@ const CreditCard = db.define('creditCards', {
 		allowNull: false, 	
 		validate: {
 			isThreeDigit: function(value){
-				value = +value
 				if (value > 999 || value < 100) {
 					throw new Error('Security code must be three digits!');
 				}

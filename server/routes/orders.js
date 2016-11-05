@@ -44,8 +44,6 @@ module.exports = customOrdersRoutes
 // });
 
 
-
-
 customOrdersRoutes.get('/:id', (req,res,next) => {
 	orderModel.findOne({
 		where: {id: req.params.id},
@@ -81,70 +79,3 @@ customOrdersRoutes.post('/', (req,res,next) => {
 	.catch(next)
 
 })
-
-
-// orders.create.fetch((req,res,context) => {
-// 	orderModel.create(req.body.order)
-// 	.then(order => {
-// 		return addressModel
-// 				.findOrCreate({where: req.body.billing_address})
-// 				.spread((addressInfo, created) => order.setBilling_address(addressInfo))
-// 				.catch(context)
-// 	})
-// 	.then(order => {
-// 		return addressModel
-// 				.findOrCreate({where: req.body.shipping_address})
-// 				.spread((addressInfo, created) => order.setShipping_address(addressInfo))
-// 				.catch(context)
-// 	})
-// 	.then(order => {
-// 		return creditCardModel
-// 				.findOrCreate({where: req.body.creditCard})
-// 				.spread((creditCardInfo, created) => {
-// 					order.setCreditCard(creditCardInfo)
-// 					return res.send(order)
-// 				})
-// 				.catch(context)
-// 	})
-// 	.catch(context)
-
-// })
-
-
-// sample req.body obj
-const reqBody1 = 
-{
-	"order": {
-		"confirmation_number": "uDALSdsafasR",
-		"status": "completed",
-		"order_date": "2085-05-27T02:31:40.236Z"
-	},
-	"shipping_address": {
-		"street1": "831 Vela Avenuessdf",
-		"street2": "(261)",
-		"city": "Evivarnow",
-		"state": "IA",
-		"zip": "00276"
-	},
-	"billing_address": {
-		"street1": "737 Deet View",
-		"street2": "(468)",
-		"city": "Cislipal",
-		"state": "KS",
-		"zip": "57382"
-	},
-	"creditCard": {
-		"id": "1",
-		"number": "5130933397360722",
-		"expiry_date": "11/2023",
-		"security_code": "692"
-	},
-	"user": {
-		"first_name": "Inez",
-		"last_name": "Taylor",
-		"email": "bu@zaj.ax",
-		"password_digest": "$2a$10$WJW4VnanT1r.jUsAadmPXeB/0FLNmJLv5iAZaFQqcoyYkthdf1LZi",
-		"shipping_address_id": "3",
-		"billing_address_id": "4"
-	}
-}

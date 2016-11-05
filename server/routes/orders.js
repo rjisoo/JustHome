@@ -7,92 +7,126 @@ const addressModel = db.model('addresses');
 const userModel = db.model('users');
 const creditCardModel = db.model('creditCards');
 const orderModel = db.model('orders');
+const lineItemModel = db.model('lineItems');
+const Bluebird = require('bluebird');
 
 const customOrdersRoutes = require('express').Router() 
 module.exports = customOrdersRoutes
 
-// Epilogue will automatically create standard RESTful routes
-const orders = epilogue.resource({
-	model: db.model('orders'),
-	include: [
-    	{ 
-    		model: addressModel, 
-    		as: 'shipping_address', 
-    		required: false 
-    	},
-			{ 
-				model: addressModel, 
-				as: 'billing_address', 
-				required: false 
-			},
-			{ 
-				model: creditCardModel, 
-				include:[{ model: userModel }],
-				required: false 
-			},
-			{ 
-				model: userModel, 
-				required: false 
-			}			
-	],
-	endpoints: ['/orders', '/orders/:id']
-});
-
-// customOrdersRoutes.get('/:id/billing-address', (req,res,next) => {
-// 	orderModel.findById(req.params.id)
-// 	.then(order => order.getBilling_address())
-// 	.then(result => res.send(result))
-// 	.catch(next);
-// })
-
-// customOrdersRoutes.post('/:id/billing-address', (req,res,next) => {
-// 	orderModel.findById(req.params.id)
-// 	.then(order => order.createBilling_address(req.body))
-// 	.then(newAddress => res.send(newAddress))
-// 	.catch(next);
-// })
+// // Epilogue will automatically create standard RESTful routes
+// const orders = epilogue.resource({
+// 	model: db.model('orders'),
+// 	include: [
+// 			{ 
+// 				model: addressModel, 
+// 				as: 'shipping_address', 
+// 				required: false 
+// 			},
+// 			{ 
+// 				model: addressModel, 
+// 				as: 'billing_address', 
+// 				required: false 
+// 			},
+// 			{ 
+// 				model: creditCardModel, 
+// 				include:[{ model: userModel }],
+// 				required: false 
+// 			},
+// 			{ 
+// 				model: userModel, 
+// 				required: false 
+// 			},
+// 			{
+// 				model: lineItemModel
+// 			}
+// 	],
+// 	endpoints: ['/orders', '/orders/:id']
+// });
 
 
-orders.create.fetch((req,res,next) => {
-	console.log('hi')
-	orderModel.create(req.body.order)
-	.then(order => order.addBilling_address(req.body.billing))
-	.then(order => order.addShipping_address(req.body.shipping))
-	.then(order => order.addCreditCard(req.body.creditCard))
-	.then(order => order.addUser(req.body.user))
-	// .then(order => order.createBilling_address(req.body.billing))
-	// .then(order => order.createShipping_address(req.body.shipping))
-	// .then(order => order.createCreditCard(req.body.creditCard))
-	// .then(order => order.createUser(req.body.user))
-	// .then(order => order.getUser())
-	.then(newAddress => res.send(newAddress))
+
+
+customOrdersRoutes.get('/:id', (req,res,next) => {
+	orderModel.findOne({
+		where: {id: req.params.id},
+		include: [{model: lineItemModel, include: [{model: productModel}]}]
+	})
+	.then(result => res.send(result))
 	.catch(next);
 })
 
+customOrdersRoutes.post('/', (req,res,next) => {
+	orderModel.create(req.body.order)
+	.then(order => {
+		return addressModel
+				.findOrCreate({where: req.body.billing_address})
+				.spread((addressInfo, created) => order.setBilling_address(addressInfo))
+				.catch(next)
+	})
+	.then(order => {
+		return addressModel
+				.findOrCreate({where: req.body.shipping_address})
+				.spread((addressInfo, created) => order.setShipping_address(addressInfo))
+				.catch(next)
+	})
+	.then(order => {
+		return creditCardModel
+				.findOrCreate({where: req.body.creditCard})
+				.spread((creditCardInfo, created) => {
+					order.setCreditCard(creditCardInfo)
+					return res.send(order)
+				})
+				.catch(next)
+	})
+	.catch(next)
+
+})
 
 
+// orders.create.fetch((req,res,context) => {
+// 	orderModel.create(req.body.order)
+// 	.then(order => {
+// 		return addressModel
+// 				.findOrCreate({where: req.body.billing_address})
+// 				.spread((addressInfo, created) => order.setBilling_address(addressInfo))
+// 				.catch(context)
+// 	})
+// 	.then(order => {
+// 		return addressModel
+// 				.findOrCreate({where: req.body.shipping_address})
+// 				.spread((addressInfo, created) => order.setShipping_address(addressInfo))
+// 				.catch(context)
+// 	})
+// 	.then(order => {
+// 		return creditCardModel
+// 				.findOrCreate({where: req.body.creditCard})
+// 				.spread((creditCardInfo, created) => {
+// 					order.setCreditCard(creditCardInfo)
+// 					return res.send(order)
+// 				})
+// 				.catch(context)
+// 	})
+// 	.catch(context)
 
-// products.read.fetch.before((req, res, context) => {
-//   context.criteria['order_id'] = null;
-//   return context.continue;
 // })
 
 
-const obj = 
+// sample req.body obj
+const reqBody1 = 
 {
 	"order": {
 		"confirmation_number": "uDALSdsafasR",
 		"status": "completed",
 		"order_date": "2085-05-27T02:31:40.236Z"
 	},
-	"shipping": {
-	"street1": "831 Vela Avenuessdf",
-	"street2": "(261)",
-	"city": "Evivarnow",
-	"state": "IA",
-	"zip": "00276"
+	"shipping_address": {
+		"street1": "831 Vela Avenuessdf",
+		"street2": "(261)",
+		"city": "Evivarnow",
+		"state": "IA",
+		"zip": "00276"
 	},
-	"billing": {
+	"billing_address": {
 		"street1": "737 Deet View",
 		"street2": "(468)",
 		"city": "Cislipal",
@@ -114,4 +148,3 @@ const obj =
 		"billing_address_id": "4"
 	}
 }
-

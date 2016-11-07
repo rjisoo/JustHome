@@ -19,8 +19,12 @@ import { fetchProducts } from './redux/products'
 import { fetchProduct } from './redux/product'
 import { fetchOrder } from './redux/order'
 import { fetchCart } from './redux/cart'
+import { retrieveLoggedInUser } from './redux/user'
 
-const appEnter = () => store.dispatch(fetchProducts());
+const appEnter = () => {
+  store.dispatch(fetchProducts())
+  store.dispatch(retrieveLoggedInUser());
+};
 const productEnter = (nextState) => store.dispatch(fetchProduct(nextState.params.productId));
 const cartEnter = () => store.dispatch(fetchCart());
 const confirmationEnter = (nextState) => store.dispatch(fetchOrder(nextState.params.orderId));

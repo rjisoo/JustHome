@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -7,19 +8,19 @@ const REMOVE = 'REMOVE_CURRENT_USER'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const set   = user => ({ type: SET, user })
+const set   = userId => ({ type: SET, userId })
 const remove  = () => ({ type: REMOVE })
 
 /* ------------       REDUCER     ------------------ */
 
-export default function reducer (currentUser = {}, action) {
+export default function reducer (currentUser = null, action) {
   switch (action.type) {
     
     case SET: 
-      return action.user;
+      return action.userId;
 
     case REMOVE: 
-      return {};  
+      return null;  
 
     default: 
       return currentUser;
@@ -28,29 +29,41 @@ export default function reducer (currentUser = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const login = credentials => dispatch => {
-  // axios.post('/auth/login', credentials)
-  //      .then(res => dispatch(set(res.data)))
-  //      .catch(err => console.error('Unable to Login', err));
-  console.log(credentials, 'logincredentials')
+export const login = (credentials, displayErr) => dispatch => {
+  axios.post('/api/auth/login', credentials)
+    .then(res => {
+      dispatch(set(res.data.id));
+      browserHistory.push(`/`);
+    })
+    .catch(err => {
+      console.error('Unable to log in', err)
+      displayErr('Invalid credentials');
+    });
 }
 
 export const signup = credentials => dispatch => {
-  // axios.post('/auth/signup', credentials)
-  //      .then(res => dispatch(set(res.data)))
-  //      .catch(err => console.error('Unable to Login', err));
-  console.log(credentials, 'signupcredentials')
+  axios.post('/api/auth/signup', credentials)
+    .then(res => {
+      dispatch(set(res.data.id));
+      browserHistory.push(`/`);
+    })
+    .catch(err => console.error('Unable to sign up', err));
 }
 
 export const retrieveLoggedInUser = () => dispatch => {
-  axios.get('/auth/me')
-      .then(res => dispatch(set(res.data)))
-      .catch(err => console.error('Unable to Retrieve Login', err));
+  axios.get('/api/auth/me')
+    .then(res => {
+      if (res.data.id)
+        dispatch(set(res.data.id))
+    })
+    .catch(err => console.error('Unable to retrieve logged in user', err));
 }
 
-// optimistic
 export const logout = () => dispatch => {
-  dispatch(remove())
-  axios.get('/auth/logout')  
-       .catch(err => console.error('Unable to Logout', err));
+  axios.delete('/api/auth/logout')
+    .then(() => {
+      dispatch(remove());
+      browserHistory.push(`/`);
+    })
+    .catch(err => console.error('Unable to logout', err));
 }

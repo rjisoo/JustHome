@@ -56,7 +56,7 @@ function SignInDecorator (SignIn) {
 
 const mapDispatchtoProps = dispatch => ({ 
 	signup: credentials => {
-		dispatch(signup(credentials, cb));
+		dispatch(signup(credentials));
 	},
 	login: (credentials, displayErr) => {
 		dispatch(login(credentials, displayErr));

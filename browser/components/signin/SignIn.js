@@ -13,6 +13,7 @@ export default ({ handleChange, handleSubmit}) => {
 	        <legend style={{width: '145px'}}>Sign-In</legend>
 	              <TextField
 	                floatingLabelText="Email"
+	                type = 'email'
 	                fullWidth={true}
 	                onChange={(evt) => handleChange("email", evt.target.value) }
 	              />
@@ -54,6 +55,7 @@ export default ({ handleChange, handleSubmit}) => {
 	            </div>
 	              <TextField
 	                floatingLabelText="Email"
+	                type = 'email'
 	                fullWidth={true}
 	                onChange={(evt) => handleChange("email", evt.target.value) }
 	              />

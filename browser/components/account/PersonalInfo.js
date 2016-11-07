@@ -28,16 +28,6 @@ export default ({ account }) => {
 				State: { account.shipping_address.state }<br/>
 				Zip: { account.shipping_address.zip }<br/>
 		</fieldset>
-		<fieldset className="form-box">
-			<legend style={{width: '170px'}}>Credit Card</legend><br/>
-				{ account.creditCards && account.creditCards.map((creditCard, i) => (
-					<fieldset className="form-box">
-						<legend style={{width: '200px'}}>Credit Card {i+1}</legend><br/>
-							Type: { creditCard.card_type }<br/>
-							Number: { creditCard.number.slice(0,4) + " - **** - **** - " + creditCard.number.slice(-4)}<br/>
-					</fieldset>					
-				))}
-		</fieldset>
 		<div className="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
 			<Link to="/account/edit-information"><RaisedButton
 				label="Edit"

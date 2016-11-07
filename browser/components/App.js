@@ -13,12 +13,19 @@ injectTapEventPlugin();
 // Material CSS rules
 const toolbarText = {color: white, padding: 0}
 const buttonText = {color: white, padding: 0, transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'}
-const centerText = {marginLeft: '45%'}
+const centerText = {marginLeft: '5%'}
 
 export default ({ children }) => (
     <MuiThemeProvider>
       <div id="app">
         <Toolbar id="navbar" style={{backgroundColor: '#007281'}}>
+            <ToolbarGroup>
+              <div className="navbar-item">
+                <Link to="/">
+                  <FontIcon className="material-icons" color={white} hoverColor="#00b6ce">home</FontIcon>
+                </Link>
+              </div>
+            </ToolbarGroup>
             <ToolbarGroup style={centerText}>
               <Link to="/">
                 <ToolbarTitle style={toolbarText} text="JustHome" />

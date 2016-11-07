@@ -11,6 +11,7 @@ import ProductContainer from './components/product/ProductContainer'
 import CartContainer from './components/cart/CartContainer'
 import OrderFormContainer from './components/orderform/OrderFormContainer'
 import OrderConfirmationContainer from './components/confirmation/OrderConfirmationContainer'
+import SignInContainer from './components/signin/SignInContainer'
 
 // Redux actions and thunks
 import store from './store'
@@ -33,6 +34,7 @@ render(
         <Route path="/cart" component={CartContainer} onEnter={ cartEnter } />
         <Route path="/checkout" component={ OrderFormContainer } />
         <Route path="/confirmation/:orderId" component={ OrderConfirmationContainer } onEnter={ confirmationEnter } />
+        <Route path="/sign-in" component={SignInContainer} />
         <IndexRoute component={ AllProductsContainer } />
       </Route>
     </Router>

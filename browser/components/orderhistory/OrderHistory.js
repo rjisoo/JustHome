@@ -6,7 +6,6 @@ import ProductList from '../products/ProductList';
 
 // Table containing multiple orders with expandable rows
 export default ({ orders }) => {
-    console.log('orders', orders);
     return (
         <div>
         {

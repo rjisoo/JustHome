@@ -122,6 +122,7 @@ for (let i = 0; i < 30; i++) {
 	cartProductArr.push(chance.cartProducts());
 	creditcardArr.push(chance.creditCards());
 	orderArr.push(chance.orders());
+	lineItemArr.push(chance.lineItems());
 	productArr.push(chance.products());
 	reviewArr.push(chance.reviews());
 	userArr.push(chance.users());

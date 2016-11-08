@@ -11,8 +11,10 @@ export const receiveOrders = orders => ({
 
 // --------------------> THUNKS <--------------------
 
+// Fetch either all or a single user's orders
 export const fetchOrders = userId => dispatch => {
-    axios.get(`/api/users/${userId}/orders`)
+    const route = userId ? `/api/users/${userId}/orders` : '/api/orders'
+    axios.get(route)
         .then(res => dispatch(receiveOrders(res.data)))
         .catch(err => console.error('Unable to fetch order history', err));
 };

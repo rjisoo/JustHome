@@ -26,15 +26,15 @@ chance.mixin({
 			product_id: chance.natural({min:1, max:5}),
 		}
 	},
-	creditCards: () => {
-		return {
-			number: chance.cc(),
-			expiry_date: chance.exp(),
-			security_code: chance.natural({min: 100, max: 999}),
-			user_id: chance.natural({min:1, max:5}),
-			card_type: chance.pickone(cardType)
-		};
-	},
+	// creditCards: () => {
+	// 	return {
+	// 		number: chance.cc(),
+	// 		expiry_date: chance.exp(),
+	// 		security_code: chance.natural({min: 100, max: 999}),
+	// 		user_id: chance.natural({min:1, max:5}),
+	// 		card_type: chance.pickone(cardType)
+	// 	};
+	// },
 	lineItems: () => {
 		return {
 			quantity: chance.natural({min:1, max:8}),
@@ -175,11 +175,26 @@ const addresslist = [
 {"id":11,"street1":"1 Hanover Square","street2":"(950)","city":"New York","state":"NY","zip":"59102"}
 ]
 
+const creditcardlist=
+[
+{"id":1,"number":"5555-5555-5555-4444","expiry_date":"02/2018","security_code":832,"card_type":"mastercard","user_id":1},
+{"id":2,"number":"4012-8888-8888-1881","expiry_date":"10/2018","security_code":951,"card_type":"visa","user_id":2},
+{"id":3,"number":"0987-6543-2100-8806","expiry_date":"03/2018","security_code":725,"card_type":"mastercard","user_id":3},
+{"id":4,"number":"0987-6543-2100-0473","expiry_date":"10/2018","security_code":781,"card_type":"mastercard","user_id":4},
+{"id":5,"number":"0987-6543-2100-0050","expiry_date":"10/2018","security_code":968,"card_type":"amex","user_id":5},
+{"id":6,"number":"0987-6543-2100-4310","expiry_date":"02/2018","security_code":962,"card_type":"amex","user_id":6},
+{"id":7,"number":"0987-6543-2100-0473","expiry_date":"10/2018","security_code":781,"card_type":"mastercard","user_id":7},
+{"id":8,"number":"0987-6543-2100-4049","expiry_date":"05/2018","security_code":415,"card_type":"amex","user_id":8},
+{"id":9,"number":"0987-6543-2100-6923","expiry_date":"11/2018","security_code":444,"card_type":"mastercard","user_id":9},
+{"id":10,"number":"5105-1051-0510-5100","expiry_date":"02/2018","security_code":694,"card_type":"mastercard","user_id":10},
+{"id":11,"number":"4111-1111-1111-1111","expiry_date":"05/2018","security_code":529,"card_type":"visa","user_id":11}
+]
+
 // arrays consist of random objects
 // for db.Promise.map(array, fn)
 const addressArr = addresslist, 
 	cartProductArr = [],
-	creditcardArr = [],
+	creditcardArr = creditcardlist,
 	lineItemArr = [],
 	orderArr = [],
 	productArr = productlist,
@@ -203,7 +218,7 @@ const addressArr = addresslist,
 for (let i = 0; i < 30; i++) {
 	//addressArr.push(chance.addresses());
 	cartProductArr.push(chance.cartProducts());
-	creditcardArr.push(chance.creditCards());
+	//creditcardArr.push(chance.creditCards());
 	orderArr.push(chance.orders());
 	lineItemArr.push(chance.lineItems());
 	//productArr.push(chance.products());

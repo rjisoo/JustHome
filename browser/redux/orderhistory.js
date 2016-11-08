@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 
 // ---------------------> TAGS <---------------------
 export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
@@ -12,19 +11,10 @@ export const receiveOrders = orders => ({
 
 // --------------------> THUNKS <--------------------
 
-export const fetchOrders = (id) => dispatch => {
-    // switch to this when we fetch by userid
-    // axios.get(`/api/users/${id}`)
-
-    // works for testing
-    axios.get(`/api/users/1`)
-        .then(res => {
-            // console.log(res.data.orders)
-            return dispatch(receiveOrders(res.data.orders))
-        })
-        .catch(err => {
-            console.error('Unable to fetch order history', err);
-        });
+export const fetchOrders = userId => dispatch => {
+    axios.get(`/api/users/${userId}/orders`)
+        .then(res => dispatch(receiveOrders(res.data)))
+        .catch(err => console.error('Unable to fetch order history', err));
 };
 
 // --------------------> REDUCER <--------------------

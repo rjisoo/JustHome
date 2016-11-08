@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router'
 
 // Material theme
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {ToolbarGroup} from 'material-ui';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';

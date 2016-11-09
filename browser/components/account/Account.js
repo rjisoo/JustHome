@@ -22,10 +22,10 @@ export default ({ user, children }) => {
 		<div id="info" className="col-xs-12">		
 			<div className="row center-block">
 				<div className="col-xs-4 center">
-					<h3>{ `${fullName(user)}` }</h3>
+					<h3>{ `Name: ${fullName(user)}` }</h3>
 				</div>
 				<div className="col-xs-offset-4 col-xs-4">
-					<h3>{ user.email }</h3>
+					<h3>{ `Email: ${user.email}` }</h3>
 				</div>
 			</div>
 

@@ -30,31 +30,38 @@ export default ({ products, category, handleChange }) => {
           </SelectField>
         </div>
       </div>
-      <div className="row product-results">
       {
-        products.map((product) => {
-          const avgRating = getAvgRating(product.reviews)
-          return (
-          <div key={ product.id } className="col-sm-4 col-lg-4 col-md-4">
-            <div className="thumbnail">
-              <img src={product.images[0]} alt="" />
-              <div className="caption">
-                <h4 className="pull-right">{ formatPrice(product.price) }</h4>
-                <h4>
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                </h4>
-              </div>
-              <div className="pull-right ratings">
+        products.map((product, rowIndex) => {
+          return rowIndex %3 === 0 ? (
+            <div key={ product.id } className="row product-results">
               {
-                getStars(avgRating)
+                products.filter((product, colIndex) => [rowIndex, rowIndex+1, rowIndex+2].some(i => colIndex === i))
+                .map((product) => {
+                  const avgRating = getAvgRating(product.reviews)
+                  return (
+                  <div key={ product.id } className="col-sm-4 col-lg-4 col-md-4">
+                    <div className="thumbnail">
+                      <img src={product.images[0]} alt="" className="img-sm-4 img-lg-4 img-md-4" />
+                      <div className="caption">
+                        <h4 className="pull-right">{ formatPrice(product.price) }</h4>
+                        <h4>
+                          <Link to={`/products/${product.id}`}>{product.name}</Link>
+                        </h4>
+                      </div>
+                      <div className="pull-right ratings">
+                      {
+                        getStars(avgRating)
+                      }
+                      </div>
+                    </div>
+                  </div>
+                  )
+                })
               }
-              </div>
             </div>
-          </div>
-          )
+            ) : null
         })
       }
-      </div>
     </div>
   )
 };

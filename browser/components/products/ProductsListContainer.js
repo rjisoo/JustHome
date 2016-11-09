@@ -5,13 +5,8 @@ import { deleteProduct } from '../../redux/products'
 
 const mapStateToProps = ({ products }) => ({ products });
 
-const mapDispatchtoProps = dispatch => {
-	return {
-		deleteProduct : (productId) => {
-      console.log('deleting', productId)
-			dispatch(deleteProduct(productId));
-		}
-	}
-}
+const mapDispatchtoProps = dispatch => ({
+	deleteProduct: productId => dispatch(deleteProduct(productId))
+});
 
 export default connect(mapStateToProps, mapDispatchtoProps)(ProductsList);

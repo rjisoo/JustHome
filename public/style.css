@@ -120,6 +120,11 @@ body,html {
 }
 
 /* Admin Product List */
+
+#product-list {
+  padding-top: 20px;
+}
+
 .item-delete:hover {
   cursor: pointer;
   font-weight: bold;

@@ -1,1 +1,1 @@
-web: check-node-version --node '>= 6.7.0' && bin/setup && webpack && node server/start.js
+web: check-node-version --node '>= 6.7.0' && bin/setup && node db/seed.js && webpack && node server/start.js

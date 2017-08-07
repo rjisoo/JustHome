@@ -5,19 +5,19 @@ of the NERP stack.
 
 You can try our [live demo](https://just-home.herokuapp.com/) with the following information:
 
-- Admin
-Id      : admin@jh.com
-Password: admin
+Admin
+- Id      : admin@jh.com
+- Password: admin
 
-- User
-Id      : jeesoo@jh.com
-Password: 1234
+User
+- Id      : jeesoo@jh.com
+- Password: 1234
 
 # Features
 
 ## Unauthenticated Users
 
-### View products (catalog)
+1. View products (catalog)
 Refine listing by category
 Search product listing
 View a product's details
@@ -25,18 +25,18 @@ Product information
 Photo(s)
 View reviews left by authenticated users
 
-### Manage their cart
+1. Manage their cart
 Add an item to the cart from product listing or product detail pages
 Remove an item from the cart
 Edit/update quantities of items in the cart
 Log in and continue editing the cart
 Refresh the page without being logged in and have the cart persist (you may use sessionStorage, localStorage, Cookies or JWT for this)
 
-### Account Management
+1. Account Management
 Create an account
 Login with Facebook and/or Google
 
-### Checkout
+1. Checkout
 Purchase items from cart
 Specify shipping address and email address
 Receive confirmation email
@@ -44,9 +44,9 @@ Receive notification emails upon order shipping, then order delivery
 
 ## Authenticated Users
 
-### Logout
+1. Logout
 
-### Account management
+1. Account management
 View past order list
 View order detail
 Current order status
@@ -54,24 +54,24 @@ Items with quantity and subtotal
 Link to the original product detail page
 Date/time order was created
 
-### Product reviews
+1. Product reviews
 Leave a review (with text and a 5-star rating) for a product
 
 ## Admin Users
 
-### Product management
+1. Product management
 Create and edit products with name, description, price and one or more photos
 Create categories for items, each item can have multiple categories
 Manage the availability of a product. If a product is no longer available, users will not see it while browsing, but they can view the product detail page if they've ordered it previously or have a direct link. On that product detail page, it should say "Currently Unavailable"
 Add/remove categories from items
 
-### Order management
+1. Order management
 View a list of all orders
 Filter orders by status (Created, Processing, Cancelled, Completed)
 Change the status of the order (Created -> Processing, Processing -> Cancelled || Completed)
 View details of a specific order
 
-### User management
+1. User management
 Promote other user accounts to have admin status
 Delete a user
 Trigger password reset for a user (next time they successfully log in—with their old password—they are prompted for a new one)

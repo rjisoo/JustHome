@@ -23,7 +23,6 @@ User
 1. Add / Remove / Edit/ Update an item to/in the cart
 1. Log in and continue editing the cart
 1. Create an account
-1. Login with Facebook and/or Google
 1. Checkout
 
 ### Authenticated Users

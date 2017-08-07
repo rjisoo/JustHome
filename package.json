@@ -7,7 +7,7 @@
     "node": "6.9.x"
   },
   "scripts": {
-    "start": "bin/setup && node server/start.js",
+    "start": "bin/setup && webpack && node server/start.js",
     "dev": "check-node-version --node '>= 6.7.0' && bin/setup && nodemon server/start.js",
     "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register tests/{*,**/*}.test.js",
     "test-watch": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register --watch tests/{*,**/*}.test.js",
@@ -56,7 +56,8 @@
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.1.0",
     "sendgrid": "^4.7.1",
-    "sequelize": "^3.24.6"
+    "sequelize": "^3.24.6",
+    "webpack": "^1.13.3"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -76,7 +77,6 @@
     "sinon": "^1.17.6",
     "supertest": "^2.0.1",
     "supertest-as-promised": "^4.0.1",
-    "volleyball": "^1.4.1",
-    "webpack": "^1.13.3"
+    "volleyball": "^1.4.1"
   }
 }

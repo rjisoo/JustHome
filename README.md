@@ -3,7 +3,7 @@
 This is a sample e-commerce application to demonstrate the end-to-end usage
 of the NERP stack.
 
-You can try our [live demo](https://just-home.herokuapp.com/) with the following information:
+You can try our [live demo](https://justhome.herokuapp.com/) with the following information:
 
 Admin
 - Id      : admin@jh.com
@@ -65,9 +65,7 @@ The above script will go through the following steps:
 
 All pushes to GitHub are being built and tested by Travis CI. However, only a select few of these builds will be deployed to Heroku.
 
-We have two versions of the app on Heroku:  
-**Prod**: [https://just-home.herokuapp.com/](https://just-home.herokuapp.com/)  
-**Test**: [https://just-home-test.herokuapp.com/](https://just-home-test.herokuapp.com/)  
+[https://justhome.herokuapp.com/](https://justhome.herokuapp.com/)  
 
 ### Deploying to Test
 

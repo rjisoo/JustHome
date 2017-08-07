@@ -3,6 +3,18 @@
 This is a sample e-commerce application to demonstrate the end-to-end usage
 of the NERP stack.
 
+You can try our [live demo](https://just-home.herokuapp.com/) with the following information:
+
+Admin
+Id      : admin@jh.com
+Password: admin
+
+User
+Id      : jeesoo@jh.com
+Password: 1234
+
+
+
 ## Running Locally
 
 ### Prerequisites

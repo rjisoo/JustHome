@@ -60,6 +60,8 @@ The above script will go through the following steps:
 1. perform a build with Webpack and watch for changes
 1. run the server and watch for file changes with nodemon
 
+visit `localhost:3000` in your browser
+
 ## Deploying to Heroku
 
 All pushes to GitHub are being built and tested by Travis CI. However, only a select few of these builds will be deployed to Heroku.
